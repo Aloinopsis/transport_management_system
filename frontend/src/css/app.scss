@@ -1,1 +1,60 @@
-// app global css
+/*
+ * TMS — Global Styles
+ *
+ * tms-theme  — centralna paleta kolorów
+ * app.scss   — globalne style i klasy pomocnicze
+ */
+
+@use './tms-theme';
+
+// ========================================
+// GLOBALNE STYLE
+// ========================================
+
+html,
+body,
+#q-app {
+  height: 100%;
+}
+
+body,
+#q-app {
+  background: var(--tms-bg);
+  color: var(--tms-text);
+}
+
+// ========================================
+// WSPÓLNE POWIERZCHNIE
+// ========================================
+
+.tms-surface {
+  background: var(--tms-surface);
+  color: var(--tms-text);
+  border: 1px solid var(--tms-border);
+  border-radius: 12px;
+}
+
+// ========================================
+// TYPOGRAFIA
+// ========================================
+
+.tms-muted {
+  color: var(--tms-text-muted);
+}
+
+// ========================================
+// TABELE
+// ========================================
+
+.tms-table {
+  background: var(--tms-surface);
+  color: var(--tms-text);
+}
+
+.tms-table thead {
+  background: var(--tms-table-header);
+}
+
+.tms-table tbody tr:hover {
+  background: var(--tms-table-row-hover);
+}

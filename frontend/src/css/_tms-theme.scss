@@ -1,0 +1,250 @@
+/*
+ * TMS DESIGN SYSTEM
+ * Centralna konfiguracja kolorów aplikacji.
+ *
+ * Light / Dark korzystają z tych samych nazw zmiennych.
+ * W komponentach używamy var(--tms-...), nigdy HEX.
+ */
+
+@use 'sass:map';
+
+// ========================================
+// 1. PALETA BAZOWA
+// ========================================
+
+// Turkus
+$teal-50: #e5f7f4;
+$teal-100: #c6eee9;
+$teal-200: #91ded6;
+$teal-300: #57cec5;
+$teal-400: #15b8b2;
+$teal-500: #087f7b;
+$teal-600: #086d70;
+$teal-700: #075b5b;
+
+// Grafit
+$slate-950: #10171f;
+$slate-900: #111820;
+$slate-850: #17212b;
+$slate-800: #1d2833;
+$slate-700: #354451;
+$slate-500: #64737b;
+$slate-400: #a4b2bd;
+$slate-100: #e7edf3;
+
+// Jasne powierzchnie
+$neutral-0: #ffffff;
+$neutral-50: #f8faf9;
+$neutral-100: #f3f5f4;
+$neutral-200: #e9eeed;
+$neutral-300: #dce3e3;
+
+// Bursztyn
+$amber-50: #fff0d1;
+$amber-400: #e4a62b;
+$amber-600: #b97c16;
+$amber-900: #624916;
+
+// Zieleń
+$green-50: #ddf7ea;
+$green-400: #22c78a;
+$green-600: #16865b;
+
+// Czerwień
+$red-50: #fde8e9;
+$red-400: #e56b6f;
+$red-600: #c3454e;
+
+// Niebieski informacyjny
+$blue-50: #e4f3fb;
+$blue-400: #55a9d3;
+$blue-600: #2786b6;
+
+// ========================================
+// 2. MOTYW JASNY
+// ========================================
+
+$light-theme: (
+  // Powierzchnie
+  bg: $neutral-100,
+  sidebar: $neutral-0,
+  header: $neutral-0,
+  surface: $neutral-0,
+  surface-alt: $neutral-200,
+  surface-hover: $neutral-50,
+  input-bg: $neutral-0,
+
+  // Tekst
+  text: #26323a,
+  text-muted: $slate-500,
+  text-disabled: #89969c,
+  text-inverse: $neutral-0,
+
+  // Obramowania
+  border: $neutral-300,
+  border-strong: #bdc9c9,
+  divider: $neutral-300,
+
+  // Kolory akcji
+  primary: $teal-500,
+  primary-hover: $teal-600,
+  primary-soft: $teal-50,
+  on-primary: $neutral-0,
+
+  secondary: #26323a,
+  accent: $teal-400,
+
+  // Statusy
+  success: $green-600,
+  success-bg: $green-50,
+
+  warning: $amber-600,
+  warning-bg: $amber-50,
+
+  danger: $red-600,
+  danger-bg: $red-50,
+
+  info: $blue-600,
+  info-bg: $blue-50,
+
+  // Nawigacja
+  nav-active-bg: $teal-50,
+  nav-active-text: $teal-500,
+  nav-hover-bg: $neutral-200,
+
+  // Tabele
+  table-header: $neutral-50,
+  table-row-hover: $teal-50,
+  table-row-selected: $teal-100,
+  table-border: $neutral-300,
+
+  // Formularze
+  input-border: $neutral-300,
+  input-focus: $teal-500,
+  input-placeholder: #89969c,
+
+  // Wykresy
+  chart-1: $teal-500,
+  chart-2: $green-600,
+  chart-3: $amber-600,
+  chart-4: $blue-600,
+  chart-5: $red-600,
+  chart-grid: $neutral-300,
+
+  // Elementy dodatkowe
+  overlay: rgba(16, 23, 31, 0.45),
+  shadow: rgba(16, 23, 31, 0.08)
+);
+
+// ========================================
+// 3. MOTYW CIEMNY
+// ========================================
+
+$dark-theme: (
+  // Powierzchnie
+  bg: $slate-900,
+  sidebar: $slate-950,
+  header: $slate-950,
+  surface: $slate-800,
+  surface-alt: $slate-850,
+  surface-hover: #263541,
+  input-bg: $slate-850,
+
+  // Tekst
+  text: $slate-100,
+  text-muted: $slate-400,
+  text-disabled: #738391,
+  text-inverse: $slate-950,
+
+  // Obramowania
+  border: $slate-700,
+  border-strong: #506171,
+  divider: $slate-700,
+
+  // Kolory akcji
+  primary: $teal-400,
+  primary-hover: $teal-300,
+  primary-soft: #123e40,
+  on-primary: $slate-950,
+
+  secondary: $slate-400,
+  accent: $teal-400,
+
+  // Statusy
+  success: $green-400,
+  success-bg: #123f31,
+
+  warning: $amber-400,
+  warning-bg: $amber-900,
+
+  danger: $red-400,
+  danger-bg: #4c272e,
+
+  info: $blue-400,
+  info-bg: #19394c,
+
+  // Nawigacja
+  nav-active-bg: $teal-600,
+  nav-active-text: $neutral-0,
+  nav-hover-bg: $slate-800,
+
+  // Tabele
+  table-header: $slate-850,
+  table-row-hover: #263541,
+  table-row-selected: #123e40,
+  table-border: $slate-700,
+
+  // Formularze
+  input-border: $slate-700,
+  input-focus: $teal-400,
+  input-placeholder: #83939e,
+
+  // Wykresy
+  chart-1: $teal-400,
+  chart-2: $green-400,
+  chart-3: $amber-400,
+  chart-4: $blue-400,
+  chart-5: $red-400,
+  chart-grid: $slate-700,
+
+  // Elementy dodatkowe
+  overlay: rgba(0, 0, 0, 0.65),
+  shadow: rgba(0, 0, 0, 0.22)
+);
+
+// ========================================
+// 4. GENERATOR ZMIENNYCH CSS
+// ========================================
+
+@mixin theme-variables($theme) {
+  @each $name, $value in $theme {
+    --tms-#{$name}: #{$value};
+  }
+}
+
+// Domyślnie jasny
+:root {
+  @include theme-variables($light-theme);
+}
+
+// Ciemny Quasar
+body.body--dark {
+  @include theme-variables($dark-theme);
+}
+
+// ========================================
+// 5. MAPOWANIE KOLORÓW QUASARA
+// ========================================
+
+// Używamy tych samych tokenów także
+// w q-btn, q-badge, q-toggle itd.
+
+:root {
+  --q-primary: var(--tms-primary);
+  --q-secondary: var(--tms-secondary);
+  --q-accent: var(--tms-accent);
+  --q-positive: var(--tms-success);
+  --q-negative: var(--tms-danger);
+  --q-info: var(--tms-info);
+  --q-warning: var(--tms-warning);
+}
