@@ -1,81 +1,83 @@
-<template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+<template lang="pug">
+q-layout.tms-layout(view="hHh Lpr fFf")
+  q-header.tms-header
+    TmsHeader(@toggle-drawer="toggleDrawer")
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+  q-drawer.tms-drawer(
+    :model-value="isDesktop || drawerOpen"
+    @update:model-value="onDrawerChange"
+    :breakpoint="1100"
+    :width="250"
+    bordered
+  )
+    TmsSidebar(@navigate="onNavigate")
 
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
-
-        <EssentialLink v-for="link in linksList" :key="link.label" v-bind="link" />
-      </q-list>
-    </q-drawer>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-  </q-layout>
+  q-page-container.tms-page-container
+    router-view
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import EssentialLink from '@/components/EssentialLink.vue'
+import { ref, computed } from 'vue'
+import { useQuasar } from 'quasar'
+import TmsHeader from '../components/layout/TmsHeader.vue'
+import TmsSidebar from '../components/layout/TmsSidebar.vue'
 
-const linksList = [
-  {
-    label: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    label: 'GitHub',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    label: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    label: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    label: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    label: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    label: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
-]
+const $q = useQuasar()
 
-const leftDrawerOpen = ref(false)
+const drawerOpen = ref(false)
 
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+const isDesktop = computed(() => $q.screen.width >= 1100)
+
+function toggleDrawer() {
+  if (!isDesktop.value) {
+    drawerOpen.value = !drawerOpen.value
+  }
+}
+
+function onDrawerChange(value) {
+  if (!isDesktop.value) {
+    drawerOpen.value = value
+  }
+}
+
+function onNavigate() {
+  if (!isDesktop.value) {
+    drawerOpen.value = false
+  }
 }
 </script>
+
+<style scoped lang="scss">
+.tms-layout {
+  min-height: 100vh;
+  background: var(--tms-bg);
+  color: var(--tms-text);
+}
+
+.tms-page-container {
+  min-height: 100vh;
+  background: var(--tms-bg);
+  color: var(--tms-text);
+}
+
+.tms-header {
+  background: var(--tms-header) !important;
+  color: var(--tms-text) !important;
+  border-bottom: 1px solid var(--tms-border);
+  box-shadow: none !important;
+}
+
+.tms-drawer {
+  background: var(--tms-sidebar) !important;
+  color: var(--tms-text) !important;
+  border-right: 1px solid var(--tms-border) !important;
+
+  :deep(.q-drawer) {
+    background: var(--tms-sidebar);
+  }
+
+  :deep(.q-drawer__content) {
+    background: var(--tms-sidebar);
+  }
+}
+</style>
