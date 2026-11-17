@@ -18,7 +18,17 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // Swagger / OpenAPI
+                        .requestMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
+                        // API - tymczasowo bez uwierzytelniania
                         .requestMatchers("/api/**").permitAll()
+
+                        // Pozostałe endpointy
                         .anyRequest().authenticated()
                 );
 

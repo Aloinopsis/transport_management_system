@@ -1,3 +1,18 @@
+/**
+ * JAVA 21
+ * Gradle 9.8.2
+ * SpringBoot 4.1.2
+ * Spring Framework 7.0.10
+ * Spring Security 7.1.2
+ * Spring Data JPA 4.1.2
+ * Hibernate ORM 7.4.13.Final
+ * PostgreSQL JDBC 42.7.14
+ *
+ * JavaDoc – do dokumentowania metod w Service, Repository i pozostałych klasach.
+ * @Operation – do opisywania endpointów w Controller.
+ * @Schema – do dokumentowania pól DTO.
+ */
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.1.2'
@@ -32,6 +47,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     implementation 'org.mapstruct:mapstruct:1.6.3'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+    // Swagger UI + automatyczna dokumentacja OpenAPI
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.2.0'
 
     // testy
 	testImplementation 'org.springframework.boot:spring-boot-starter-actuator-test'
