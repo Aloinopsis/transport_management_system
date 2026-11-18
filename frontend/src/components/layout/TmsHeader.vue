@@ -20,22 +20,6 @@ użytkownika. */
       strong TMS
       small Transport Management System
 
-  // Pasek wyszukiwania
-  .tms-search-wrap
-    q-input.tms-search(
-      ref="searchInput"
-      v-model="search"
-      dense
-      outlined
-      placeholder="Szukaj w systemie (zlecenia, transporty, kontrahenci...)"
-      aria-label="Wyszukiwanie w systemie"
-      @keyup.enter="notReady('Wyszukiwanie globalne')"
-    )
-      template(#prepend)
-        q-icon(name="search")
-      template(#append)
-        kbd.tms-shortcut Ctrl + K
-
     // Przycisk powiadomień
   .tms-header-actions
     q-btn(
@@ -95,7 +79,6 @@ import { IconTruckDelivery } from '@tabler/icons-vue'
 
 const emit = defineEmits(['toggle-drawer'])
 const $q = useQuasar()
-const search = ref('')
 const searchInput = ref(null)
 const theme = ref(getTmsTheme())
 
