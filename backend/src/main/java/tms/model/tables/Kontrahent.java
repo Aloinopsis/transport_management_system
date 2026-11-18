@@ -1,18 +1,17 @@
-package tms.tables.kontrahenci;
+package tms.model.tables;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
-//@RequiredArgsConstructor
-//@NoArgsConstructor
 @Table(name = "KONTRAHENCI")
 public class Kontrahent {
 
@@ -69,10 +68,11 @@ public class Kontrahent {
     @Column(name = "UWAGI")
     private String uwagi;
 
-    @Column(name = "DATA_DODANIA")
-    private Timestamp dataDodania;
+    @CreationTimestamp
+    @Column(name = "DATA_DODANIA", updatable = false)
+    private LocalDateTime dataDodania;
 
     @Column(name = "DATA_OSTATNIEJ_MODYFIKACJI")
-    private Timestamp dataOstatniejModyfikacji;
+    private LocalDateTime dataOstatniejModyfikacji;
 
 }
