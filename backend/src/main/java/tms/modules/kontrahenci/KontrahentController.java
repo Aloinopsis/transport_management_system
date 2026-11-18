@@ -23,7 +23,7 @@ public class KontrahentController {
     private final KontrahentService service;
 
     @Operation(description = "Zwraca listę kontrahentów posortowanych po kodzie")
-    @GetMapping("/all")
+    @GetMapping
     public Page<KontrahentResponse> findAll(
             @PageableDefault(size = 100, sort = "kod")
             Pageable pageable) {
