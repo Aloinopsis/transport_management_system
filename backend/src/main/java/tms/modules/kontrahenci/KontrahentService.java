@@ -1,4 +1,4 @@
-package tms.tables.kontrahenci;
+package tms.modules.kontrahenci;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -7,11 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tms.common.exception.BusinessConflictException;
 import tms.common.exception.ResourceNotFoundException;
-import tms.common.mapper.KontrahentMapper;
-import tms.tables.kontrahenci.dto.KontrahentRequest;
-import tms.tables.kontrahenci.dto.KontrahentResponse;
-
-import java.sql.Timestamp;
+import tms.modules.kontrahenci.dto.KontrahentRequest;
+import tms.modules.kontrahenci.dto.KontrahentResponse;
+import tms.model.tables.Kontrahent;
 
 @Service
 @RequiredArgsConstructor
@@ -22,11 +20,11 @@ public class KontrahentService {
     private final KontrahentMapper mapper;
 
     public Page<KontrahentResponse> findAll(Pageable pageable) {
-        return repository.findAll(pageable).map(KontrahentResponse::fromEntity);
+        return repository.findAll(pageable).map(mapper::toResponse);
     }
 
     public KontrahentResponse findById(Long id) {
-        return KontrahentResponse.fromEntity(getEntity(id));
+        return mapper.toResponse(getEntity(id));
     }
 
     @Transactional
@@ -37,8 +35,6 @@ public class KontrahentService {
         }
 
         Kontrahent kontrahent = mapper.toEntity(request);
-
-        kontrahent.setDataDodania(new Timestamp(System.currentTimeMillis()));
 
         Kontrahent saved = repository.saveAndFlush(kontrahent);
 
