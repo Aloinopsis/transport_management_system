@@ -1,5 +1,7 @@
-package tms.tables.kontrahenci;
+package tms.modules.kontrahenci;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -8,8 +10,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tms.tables.kontrahenci.dto.KontrahentRequest;
-import tms.tables.kontrahenci.dto.KontrahentResponse;
+import tms.modules.kontrahenci.dto.KontrahentRequest;
+import tms.modules.kontrahenci.dto.KontrahentResponse;
 
 import java.net.URI;
 
@@ -20,13 +22,23 @@ public class KontrahentController {
 
     private final KontrahentService service;
 
-    @GetMapping
+    @Operation(description = "Zwraca listę kontrahentów posortowanych po kodzie")
+    @GetMapping("/all")
     public Page<KontrahentResponse> findAll(
-            @PageableDefault(size = 20, sort = "kod")
+            @PageableDefault(size = 100, sort = "kod")
             Pageable pageable) {
         return service.findAll(pageable);
     }
 
+    @Operation(summary = "Pobiera kontrahenta", description = "Zwraca szczegóły kontrahenta o wskazanym ID")
+    @ApiResponse(responseCode = "200", description = "Znaleziono kontrahenta")
+    @ApiResponse(responseCode = "404", description = "Kontrahent nie istnieje")
+    @GetMapping("/{id}")
+    public KontrahentResponse findById(@PathVariable Long id) {
+        return service.findById(id);
+    }
+
+    @Operation(description = "Tworzy nową encję kontrahenta")
     @PostMapping
     public ResponseEntity<KontrahentResponse> create(
             @Valid @RequestBody KontrahentRequest request
