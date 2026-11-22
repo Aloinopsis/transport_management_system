@@ -59,9 +59,11 @@ public class KontrahentController {
     }
 
     @Operation(summary = "Usuwanie kontrahenta", description = "Usuwa kontrahenta o wskazanym id")
-    @ApiResponse(responseCode = "204", description = "Kontrahent usunięty poprawnie")
-    @ApiResponse(responseCode = "404", description = "Kontrahent o wskazanym ID nie istnieje")
-    @ApiResponse(responseCode = "409", description = "Kontrahent posiada powiązania")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Kontrahent usunięty poprawnie"),
+            @ApiResponse(responseCode = "404", description = "Kontrahent o wskazanym ID nie istnieje"),
+            @ApiResponse(responseCode = "409", description = "Kontrahent posiada powiązania")
+    })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
