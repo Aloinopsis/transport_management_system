@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tms.common.exception.BusinessConflictException;
 import tms.common.exception.ResourceNotFoundException;
+import tms.modules.kontrahenci.dto.KontrahentPatchRequest;
 import tms.modules.kontrahenci.dto.KontrahentRequest;
 import tms.modules.kontrahenci.dto.KontrahentResponse;
 import tms.model.tables.Kontrahent;
@@ -27,6 +28,15 @@ public class KontrahentService {
         return mapper.toResponse(getEntity(id));
     }
 
+    private Kontrahent getEntity(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Nie znaleziono kontrahenta o ID: " + id
+                        )
+                );
+    }
+
     @Transactional
     public KontrahentResponse create(KontrahentRequest request) {
 
@@ -41,14 +51,13 @@ public class KontrahentService {
         return mapper.toResponse(saved);
     }
 
-    private Kontrahent getEntity(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Nie znaleziono kontrahenta o ID: "
-                                        + id
-                        )
-                );
+
+
+    @Transactional
+    public KontrahentResponse patch(Long id, KontrahentPatchRequest request) {
+        Kontrahent entity = getEntity(id);
+        mapper.patchEntity(request, entity);
+        return mapper.toResponse(entity);
     }
 
     @Transactional
