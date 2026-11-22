@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tms.modules.kontrahenci.dto.KontrahentRequest;
 import tms.modules.kontrahenci.dto.KontrahentResponse;
+import tms.modules.kontrahenci.dto.KontrahentPatchRequest;
 
 import java.net.URI;
 
@@ -56,6 +57,11 @@ public class KontrahentController {
         return ResponseEntity
                 .created(location)
                 .body(response);
+    }
+
+    @PatchMapping("/{id}")
+    public KontrahentResponse patch(@PathVariable Long id, @Valid @RequestBody KontrahentPatchRequest request) {
+        return service.patch(id, request);
     }
 
     @Operation(summary = "Usuwanie kontrahenta", description = "Usuwa kontrahenta o wskazanym id")
