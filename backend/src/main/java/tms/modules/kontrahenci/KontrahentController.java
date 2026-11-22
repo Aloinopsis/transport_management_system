@@ -59,6 +59,11 @@ public class KontrahentController {
                 .body(response);
     }
 
+    @PutMapping("/{id}")
+    public KontrahentResponse put(@PathVariable Long id, @Valid @RequestBody KontrahentRequest request) {
+        return service.update(id, request);
+    }
+
     @PatchMapping("/{id}")
     public KontrahentResponse patch(@PathVariable Long id, @Valid @RequestBody KontrahentPatchRequest request) {
         return service.patch(id, request);

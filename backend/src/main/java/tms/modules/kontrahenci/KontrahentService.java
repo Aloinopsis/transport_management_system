@@ -51,7 +51,12 @@ public class KontrahentService {
         return mapper.toResponse(saved);
     }
 
-
+    @Transactional
+    public KontrahentResponse update(Long id, KontrahentRequest request) {
+        Kontrahent entity = getEntity(id);
+        mapper.updateEntity(request, entity);
+        return mapper.toResponse(entity);
+    }
 
     @Transactional
     public KontrahentResponse patch(Long id, KontrahentPatchRequest request) {
