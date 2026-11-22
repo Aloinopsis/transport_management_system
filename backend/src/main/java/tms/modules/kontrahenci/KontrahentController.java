@@ -2,11 +2,13 @@ package tms.modules.kontrahenci;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -54,5 +56,15 @@ public class KontrahentController {
         return ResponseEntity
                 .created(location)
                 .body(response);
+    }
+
+    @Operation(summary = "Usuwanie kontrahenta", description = "Usuwa kontrahenta o wskazanym id")
+    @ApiResponse(responseCode = "204", description = "Kontrahent usunięty poprawnie")
+    @ApiResponse(responseCode = "404", description = "Kontrahent o wskazanym ID nie istnieje")
+    @ApiResponse(responseCode = "409", description = "Kontrahent posiada powiązania")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 }

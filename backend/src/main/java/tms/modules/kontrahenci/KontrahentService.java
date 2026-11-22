@@ -51,4 +51,10 @@ public class KontrahentService {
                 );
     }
 
+    @Transactional
+    public void delete(Long id) {
+        Kontrahent kontrahent = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono kontrahenta o ID: " + id));
+        repository.delete(kontrahent);
+    }
+
 }
