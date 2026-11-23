@@ -1,8 +1,8 @@
 import api from './api'
 
 export const kontrahentService = {
-  getAll() {
-    return api.get('/kontrahenci')
+  getAll(params = {}) {
+    return api.get('/kontrahenci', { params })
   },
 
   getById(id) {

@@ -7,25 +7,71 @@ q-page
     :tabs="tabs"
     :detail-actions="detailActions"
     :splitter="42"
-    @action="handleAction"
-    @detail-action="handleDetailAction"
-    @search="handleSearch")
-  //- .text-h5.q-mb-md Kontrahenci
-  //- q-btn(color="primary" label="Pobierz kontrahentów" :loading="loading" @click="loadKontrahenci")
-  //- q-banner.bg-red-1.q-mt-md(v-if="error") {{ error }}
-  //- q-table.q-mt-md(title="Lista kontrahentów" :rows="kontrahenci" :columns="columns" row-key="id" :loading="loading")
+    @search="handleSearch"
+    )
+    //-  LEWY PANEL - LISTA KONTRAHENTÓW
+    template(#list)
+      .column.no-wrap.full-height
+        q-banner.bg-red-1.text-negative(
+          v-if="error"
+          dense
+        ) {{ error }}
+      KontrahenciList(
+        :kontrahenci="kontrahenci"
+        @select="selectKontrahent"
+      )
+
+    //- PRAWY PANEL - SZCZEGÓŁY KONTRAHENTA
+
+    template(#detail-content="{ activeTab }")
+      .q-pa-md(v-if="selectedKontrahent")
+        template(v-if="activeTab === 'profile'")
+          .text-h6 {{ selectedKontrahent.nazwa }}
+          q-separator.q-my-md
+
+          div Kod: {{ selectedKontrahent.kod }}
+          div NIP: {{ selectedKontrahent.nip }}
+          div REGON: {{ selectedKontrahent.regon }}
+          div Miasto: {{ selectedKontrahent.adresMiasto }}
+          div Telefon: {{ selectedKontrahent.telefon }}
+          div E-mail: {{ selectedKontrahent.email }}
+
+        template(v-else)
+          .text-grey
+            | Zakładka w przygotowaniu: {{ activeTab }}
+
+      .q-pa-md.text-grey(v-else)
+        | Wybierz kontrahenta z listy.
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import { useKontrahent } from '../../composables/useKontrahent.js'
 import TmsWorkspace from '../../components/workspace/TmsWorkspace.vue'
+import KontrahenciList from './components/KontrahenciList.vue'
+// import KontrahenciDetails from './KontrahenciDetails.vue'
+
+const { kontrahenci, error, loadKntList, refreshKntList } = useKontrahent()
+const selectedKontrahent = ref(null)
 
 const actions = [
-  { name: 'add', label: 'Dodaj', icon: 'add' },
+  {
+    name: 'add',
+    label: 'Dodaj',
+    icon: 'add',
+    click: () => console.log('%c Dodawanie kontrahenta', 'color: green; font-size: 18px'),
+  },
   { name: 'edit', label: 'Edytuj', icon: 'edit', disabled: true },
   { name: 'clone', label: 'Klonuj', icon: 'content_copy', disabled: true },
   { name: 'delete', label: 'Usuń', icon: 'delete', color: 'negative', disabled: true },
   { name: 'filter', label: 'Filtry', icon: 'filter_alt' },
   { name: 'report', label: 'Raport', icon: 'bar_chart' },
+  {
+    name: 'refresh',
+    label: 'Pobierz listę kontrahentów refreshem',
+    icon: 'refresh',
+    click: refreshKntList,
+  },
 ]
 
 const tabs = [
@@ -40,7 +86,14 @@ const tabs = [
 ]
 
 const detailActions = {
-  profile: [{ name: 'edit', label: 'Edytuj profil', icon: 'edit' }],
+  profile: [
+    {
+      name: 'edit',
+      label: 'Edytuj profil',
+      icon: 'edit',
+      click: () => editKontrahent(selectedKontrahent.value),
+    },
+  ],
   contacts: [
     { name: 'add', label: 'Dodaj osobę', icon: 'person_add' },
     { name: 'edit', label: 'Edytuj osobę', icon: 'edit' },
@@ -52,16 +105,17 @@ const detailActions = {
   ],
 }
 
-function handleAction(action) {
-  console.log('Akcja modułu:', action)
-}
-
-function handleDetailAction(payload) {
-  console.log('Akcja szczegółów:', payload.tab, payload.action)
+function selectKontrahent(kontrahent) {
+  selectedKontrahent.value = kontrahent
 }
 
 function handleSearch(value) {
   console.log('Wyszukiwanie kontrahentów:', value)
+  loadKntList(value)
+}
+
+function editKontrahent(kontrahent) {
+  console.log('Edytowanie kontrahenta:', kontrahent)
 }
 </script>
 

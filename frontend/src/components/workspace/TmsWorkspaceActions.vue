@@ -14,7 +14,7 @@
     :color="action.color || 'primary'"
     :disable="disabled || action.disabled"
     :aria-label="action.label"
-    @click="emit('action', action.name)"
+    @click="action.click?.()"
   )
     q-tooltip {{ action.label }}
 </template>
@@ -37,8 +37,6 @@ const props = defineProps({
     default: false,
   },
 })
-
-const emit = defineEmits(['action'])
 
 const visibleActions = computed(() => props.actions.filter((action) => action.visible !== false))
 </script>

@@ -5,6 +5,7 @@
 
 # VS Code - lokalne ustawienia
 .vscode/
+dependencies.txt
 
 # Java / Spring Boot / Gradle
 **/.gradle/
@@ -54,7 +55,7 @@ flota_1.png
 flota_2.png
 kierowcy_1.png
 kierowcy_2.png
-kontrahenci_1.png
+kontrahenci.png
 kontrahenci_2.png
 transporty_1.png
 transporty_2.png

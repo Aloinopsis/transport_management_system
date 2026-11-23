@@ -1,3 +1,6 @@
+/** Główny komponent workspace dla danego modułu. Implementuje podział na panele, zakładki oraz
+akcje szczegółowe */
+
 <template lang="pug">
 .tms-workspace.column.no-wrap
   .workspace-heading(v-if="showHeading")
@@ -16,21 +19,17 @@
       template(#before)
         .workspace-panel.column.no-wrap
           .workspace-toolbar.row.items-center.no-wrap
-            q-input.workspace-search(
+
+            //- szukajka
+            TmsWorkspaceSearch(
               v-model="searchValue"
-              dense
-              outlined
-              clearable
-              :debounce="350"
               :placeholder="searchPlaceholder"
             )
-              template(#prepend)
-                q-icon(name="search")
 
+            //- Szukajka & lista buttonów
             TmsWorkspaceActions(
               :actions="actions"
               direction="horizontal"
-              @action="name => emit('action', name)"
             )
 
             q-space
@@ -75,30 +74,15 @@
           .workspace-details-header
             slot(name="details-header")
 
-          q-tabs.workspace-tabs(
+          TmsWorkspaceTabs(
+            :tabs="tabs"
             v-model="activeTab"
-            dense
-            no-caps
-            inline-label
-            outside-arrows
-            mobile-arrows
-            align="left"
-            active-color="primary"
-            indicator-color="primary"
           )
-            q-tab(
-              v-for="tab in tabs"
-              :key="tab.name"
-              :name="tab.name"
-              :icon="tab.icon"
-              :label="tab.label"
-            )
 
           .workspace-details.row.no-wrap.col
             TmsWorkspaceActions.workspace-action-rail(
               :actions="currentDetailActions"
               direction="vertical"
-              @action="name => emit('detail-action', { tab: activeTab, action: name })"
             )
 
             .workspace-detail-content.col
@@ -111,6 +95,8 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import TmsWorkspaceActions from './TmsWorkspaceActions.vue'
+import TmsWorkspaceSearch from './TmsWorkspaceSearch.vue'
+import TmsWorkspaceTabs from './TmsWorkspaceTabs.vue'
 
 const props = defineProps({
   moduleId: { type: String, required: true },
@@ -179,15 +165,6 @@ watch(detailsVisible, (value) => {
 watch(searchValue, (value) => {
   emit('search', value ?? '')
 })
-
-watch(
-  () => props.tabs,
-  (tabs) => {
-    if (!tabs.some((tab) => tab.name === activeTab.value)) {
-      activeTab.value = tabs[0]?.name ?? ''
-    }
-  },
-)
 
 function toggleDetails() {
   detailsVisible.value = !detailsVisible.value
